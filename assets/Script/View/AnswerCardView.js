@@ -27,17 +27,26 @@ cc.Class({
     //         this._bar = value;
     //     }
     // },
-    zIndex: 10
+    zIndex: 10,
+    closeFlag: {
+      type: cc.Node,
+      default: null
+    }
   },
 
   // LIFE-CYCLE CALLBACKS:
 
   onLoad() {
-    this.node.zIndex = this.zIndex;
-    this.node.active = false
+    this.init();
   },
 
-  start() {}
+  init() {
+    let _this = this;
+    this.node.zIndex = this.zIndex;
+    this.closeFlag.on(cc.Node.EventType.TOUCH_START, function(eventTouch) {
+      cc.director.getScene().getChildByName("Canvas").getChildByName("GameScene").getComponent("GameController").removeAnswerCard();
+    });
+  }
 
   // update (dt) {},
 });

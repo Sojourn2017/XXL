@@ -80,7 +80,8 @@ cc.Class({
         }, this);
         // 滑动操作逻辑
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function(eventTouch){
-           if(this.isCanMove){
+           console.log(eventTouch)
+          if(this.isCanMove){
                var startTouchPos = eventTouch.getStartLocation ();
                var startCellPos = this.convertTouchPosToCell(startTouchPos);
                var touchPos = eventTouch.getLocation();

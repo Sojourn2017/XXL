@@ -8,13 +8,55 @@
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
+import UtilsModel from '../Model/utisModel'
+
 cc.Class({
     extends: cc.Component,
 
     properties: {
-
+      removeUtil: {
+        type: cc.Node,
+        default: null
+      },
+      exchangeUtil: {
+        type: cc.Node,
+        default: null
+      },
+      refreshUtil: {
+        type: cc.Node,
+        default: null
+      },
+      rowUtil: {
+        type: cc.Node,
+        default: null
+      },
+      columnUtil: {
+        type: cc.Node,
+        default: null
+      },
+      gameScene: {
+        type: cc.Node,
+        default: null
+      },
+      answerCardPrefab: {
+        default: null,
+        type: cc.Prefab
+      }
     },
-    start () {
-
+    onLoad () {
+      let _this = this;
+      this.init();
+      console.log(this.GameController)
+      this.utilsModel = new UtilsModel();
+      
+      this.utilsModel.utilsList.forEach(key => {
+        this[key].on(cc.Node.EventType.TOUCH_START, function(eventTouch) {
+          console.log(key)
+          _this.GameController.addAnswerCard();
+        })
+      })
     },
+    init () {
+      this.GameController = this.gameScene.getComponent('GameController');
+    }
 });
