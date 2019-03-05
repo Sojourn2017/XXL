@@ -1,11 +1,10 @@
 {
-  "ver": "2.3.0",
+  "ver": "2.2.0",
   "uuid": "44c79368-9622-4091-bf4f-9c8160133ce7",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
-  "platformSettings": {},
   "subMetas": {
     "frog_line_12": {
       "ver": "1.0.3",
