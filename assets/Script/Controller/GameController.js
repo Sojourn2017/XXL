@@ -29,7 +29,8 @@ cc.Class({
     canvas: {
       type: cc.Node,
       default: null
-    }
+    },
+    gameOver: false
   },
 
   // use this for initialization
@@ -39,12 +40,24 @@ cc.Class({
     var gridScript = this.grid.getComponent("GridView");
     gridScript.setController(this);
     gridScript.initWithCellModels(this.gameModel.getCells());
+    this.gridScript = gridScript;
     window.gc = this;
 
     console.log(cc.winSize);
   },
 
+  update: function (dt) {
+    if (!this.gameOver && !this.gridScript.isInPlayAni && this.CounterText.string == 0) {
+      this.addAnswerCard();
+      this.gameOver = true;
+    }
+  },
+
   selectCell: function(pos) {
+    if (this.gameOver) {
+      this.addAnswerCard();
+      return;
+    }
     let selectCellRes = this.gameModel.selectCell(pos);
     if (selectCellRes.length > 1 && selectCellRes[1].length > 0) {
       this.handleCounter();
@@ -57,11 +70,7 @@ cc.Class({
   handleCounter() {
     let CounterText = this.CounterText;
     let curCount = Number(CounterText.string);
-    if (curCount > 1) {
-      this.setCounter(--curCount);
-    } else {
-      this.addAnswerCard();
-    }
+    curCount > 0 && this.setCounter(--curCount);
   },
 
   setCounter(count) {
