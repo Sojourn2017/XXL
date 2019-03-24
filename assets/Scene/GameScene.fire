@@ -908,7 +908,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 45.44,
+      "width": 90.88,
       "height": 80
     },
     "_anchorPoint": {
@@ -954,8 +954,8 @@
     "_srcBlendFactor": 1,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "3",
-    "_N$string": "3",
+    "_string": "20",
+    "_N$string": "20",
     "_fontSize": 80,
     "_lineHeight": 80,
     "_enableWrapText": true,
@@ -2095,6 +2095,7 @@
     "canvas": {
       "__id__": 2
     },
+    "utilType": 0,
     "gameOver": false,
     "_id": "26m2VngNVFa5Ve3tDpslXs"
   },

@@ -30,6 +30,7 @@ cc.Class({
       type: cc.Node,
       default: null
     },
+    utilType: 0,  // 使用的道具类型
     gameOver: false
   },
 
@@ -44,6 +45,27 @@ cc.Class({
     window.gc = this;
 
     console.log(cc.winSize);
+    this.test();
+  },
+
+  test() {
+    console.log(this.CounterText)
+    this.CounterText.node.on(
+      cc.Node.EventType.TOUCH_START,
+      function(eventTouch) {
+        this.grid.children.splice(1);
+        this.gameModel = new GameModel();
+        this.gameModel.init(5);
+        var gridScript = this.grid.getComponent("GridView");
+        gridScript.setController(this);
+        gridScript.initWithCellModels(this.gameModel.getCells());
+        this.gridScript = gridScript;
+        window.gc = this;
+    
+        console.log(cc.winSize);
+      },
+      this
+    );
   },
 
   update: function (dt) {
@@ -63,6 +85,9 @@ cc.Class({
       this.handleCounter();
     }
     return selectCellRes;
+  },
+  crushCell (...rest) {
+    this.gameModel.crushCell.apply(this.gameModel, rest);
   },
   cleanCmd: function() {
     this.gameModel.cleanCmd();
@@ -87,5 +112,21 @@ cc.Class({
   removeAnswerCard () {
     this.AnswerCard.destroy();
     this.node.resumeSystemEvents(true);
-  }
+  },
+
+  removeUtil (cellPos) {
+    return this.gameModel.removeUtil(cellPos);
+  },
+  exchangeUtil (cellPos) {
+    return this.gameModel.exchangeUtil(cellPos);
+  },
+  refreshUtil (cellPos) {
+    return this.gameModel.refreshUtil(cellPos);
+  },
+  rowUtil (cellPos) {
+    return this.gameModel.rowUtil(cellPos);
+  },
+  columnUtil (cellPos) {
+    return this.gameModel.columnUtil(cellPos);
+  },
 });

@@ -90,8 +90,7 @@ cc.Class({
     this.node.on(
       cc.Node.EventType.TOUCH_MOVE,
       function(eventTouch) {
-        console.log(eventTouch);
-        if (this.isCanMove) {
+        if (this.isCanMove && !(this.controller.utilType > 0)) {
           var startTouchPos = eventTouch.getStartLocation();
           var startCellPos = this.convertTouchPosToCell(startTouchPos);
           var touchPos = eventTouch.getLocation();
@@ -240,8 +239,9 @@ cc.Class({
       )
     );
   },
-  // 正常击中格子后的操作
+  // 击中格子后的操作
   selectCell: function(cellPos) {
+    // 检测步数
     if (this.getCounter() == 0) {
       cc.director
         .getScene()
@@ -250,13 +250,20 @@ cc.Class({
         .getComponent("GameController").addAnswerCard();
       return;
     }
-    var result = this.controller.selectCell(cellPos); // 直接先丢给model处理数据逻辑
+    let result = [[], []];
+    if (this.controller.utilType > 0) {
+      // 使用道具
+      result =  this.handleUtil(this.controller.utilType, cellPos);
+    } else {
+      result = this.controller.selectCell(cellPos); // 直接先丢给model处理数据逻辑
+    }
     var changeModels = result[0]; // 有改变的cell，包含新生成的cell和生成马上摧毁的格子
     var effectsQueue = result[1]; //各种特效
     this.playEffect(effectsQueue);
     this.disableTouch(
       this.getPlayAniTime(changeModels),
-      this.getStep(effectsQueue)
+      this.getStep(effectsQueue),
+      this.resetUtilType(this.controller.utilType)
     );
     this.updateView(changeModels);
     this.controller.cleanCmd();
@@ -279,7 +286,38 @@ cc.Class({
       .getChildByName("Canvas")
       .getChildByName("GameScene")
       .getComponent("GameController").CounterText.string;
-  }
+  },
+
+  handleUtil (type, cellPos) {
+    switch (type) {
+      case 1:
+        return this.controller.removeUtil(cellPos)
+        break;
+      case 2:
+        return this.controller.exchangeUtil(cellPos)
+        break;
+      case 3:
+        return this.controller.refreshUtil(cellPos)
+        break;
+      case 4:
+        return this.controller.rowUtil(cellPos)
+        break;
+      case 5:
+        return this.controller.columnUtil(cellPos)
+        break;
+      default:
+        break;
+    }
+  },
+
+  resetUtilType(type) {
+    if (type == 2) {
+      this.utilWaitingFlag = !this.utilWaitingFlag;
+    } else {
+      this.utilWaitingFlag = false;
+    }
+    !this.utilWaitingFlag && (this.controller.utilType = 0);
+  },
 
   // called every frame, uncomment this function to activate update callback
   // update: function (dt) {

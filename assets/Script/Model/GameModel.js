@@ -1,5 +1,5 @@
 import CellModel from "./CellModel";
-import { CELL_TYPE, CELL_BASENUM, CELL_STATUS, GRID_WIDTH, GRID_HEIGHT, ANITIME } from "./ConstValue";
+import { CELL_TYPE, CELL_BASENUM, CELL_STATUS, GRID_WIDTH, GRID_HEIGHT, ANITIME, UTILS } from "./ConstValue";
 
 export default function GameModel(){
     this.cells = null;
@@ -128,14 +128,14 @@ GameModel.prototype.getCells = function(){
 }
 // controller调用的主要入口
 // 点击某个格子
-GameModel.prototype.selectCell =function(pos){
+GameModel.prototype.selectCell =function(pos, utilType){
     this.changeModels = [];// 发生改变的model，将作为返回值，给view播动作
     this.effectsQueue = []; // 动物消失，爆炸等特效
     var lastPos = this.lastPos;
     var delta = Math.abs(pos.x - lastPos.x) + Math.abs(pos.y - lastPos.y);
-    if(delta != 1){ //非相邻格子， 直接返回
-        this.lastPos = pos;
-        return [[], []];
+    if(delta != 1){ // 非相邻格子且不是使用强制交换道具且lastPos为空， 直接返回
+      this.lastPos = pos;
+      return [[], []];
     }
     let curClickCell = this.cells[pos.y][pos.x]; //当前点击的格子
     let lastClickCell = this.cells[lastPos.y][lastPos.x]; // 上一次点击的格式
@@ -149,7 +149,7 @@ GameModel.prototype.selectCell =function(pos){
             lastClickCell.status != CELL_STATUS.COMMON) ||
              curClickCell.status == CELL_STATUS.BIRD ||
              lastClickCell.status == CELL_STATUS.BIRD;
-    if(result1.length < 3 && result2.length < 3 && !isCanBomb){//不会发生消除的情况
+    if(result1.length < 3 && result2.length < 3 && !isCanBomb && utilType != 2){//不会发生消除的情况
         this.exchangeCell(lastPos, pos);
         curClickCell.moveToAndBack(lastPos);
         lastClickCell.moveToAndBack(pos);
@@ -270,11 +270,14 @@ GameModel.prototype.down = function(){
             }
         }
     }
-    this.curTime += ANITIME.TOUCH_MOVE + 0.3
+    this.curTime += ANITIME.TOUCH_MOVE + 0.3;
     return newCheckPoint;
 }
 
 GameModel.prototype.pushToChangeModels = function(model){
+    if (!this.changeModels) {
+      this.changeModels = [];
+    }
     if(this.changeModels.indexOf(model) != -1){
         return ;
     }
@@ -437,4 +440,20 @@ GameModel.prototype.crushCell = function(x, y, needShake, step){
     }
     this.addCrushEffect(this.curTime, cc.v2(model.x, model.y), step);
     this.cells[y][x] = null;
+}
+
+GameModel.prototype.removeUtil = function (cellPos) {
+  let {x, y} = cellPos;
+  this.curTime = 0;
+  this.changeModels = [];// 发生改变的model，将作为返回值，给view播动作
+  this.effectsQueue = []; // 动物消失，爆炸等特效
+  this.crushCell(x, y, true, 0);
+  this.lastPos = cc.v2(-1,-1);
+  this.curTime += ANITIME.TOUCH_MOVE;
+  this.processCrush(this.down());
+  return [this.changeModels, this.effectsQueue]
+}
+
+GameModel.prototype.exchangeUtil = function (cellPos) {
+  return this.selectCell(cellPos, UTILS.exchangeUtil.type);
 }

@@ -51,7 +51,7 @@ cc.Class({
       
       this.utilsModel.utilsList.forEach(key => {
         this[key].on(cc.Node.EventType.TOUCH_START, function(eventTouch) {
-          console.log(key)
+          _this.GameController.utilType = _this.utilsModel.utils[key].type;
           _this.GameController.addAnswerCard();
         })
       })
