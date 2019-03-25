@@ -44,8 +44,12 @@ cc.Class({
     let _this = this;
     this.node.zIndex = this.zIndex;
     this.closeFlag.on(cc.Node.EventType.TOUCH_START, function(eventTouch) {
-      console.log(eventTouch)
-      cc.director.getScene().getChildByName("Canvas").getChildByName("GameScene").getComponent("GameController").removeAnswerCard();
+      let gameContriller = cc.director.getScene().getChildByName("Canvas").getChildByName("GameScene").getComponent("GameController");
+      gameContriller.removeAnswerCard();
+      if (gameContriller.utilType == 3) {
+        gameContriller.refreshUtil();
+        gameContriller.utilType = 0;
+      }
     });
   }
 

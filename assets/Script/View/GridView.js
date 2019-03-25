@@ -297,7 +297,7 @@ cc.Class({
         return this.controller.exchangeUtil(cellPos)
         break;
       case 3:
-        return this.controller.refreshUtil(cellPos)
+        this.controller.refreshUtil()
         break;
       case 4:
         return this.controller.rowUtil(cellPos)

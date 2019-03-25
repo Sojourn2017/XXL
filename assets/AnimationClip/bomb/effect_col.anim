@@ -2,7 +2,7 @@
   "__type__": "cc.AnimationClip",
   "_name": "effect_col",
   "_objFlags": 0,
-  "_rawFiles": null,
+  "_native": "",
   "_duration": 0.4,
   "sample": 60,
   "speed": 1,
@@ -46,8 +46,30 @@
           "frame": 0,
           "value": -90
         }
+      ],
+      "rotation": [
+        {
+          "frame": 0,
+          "value": 90
+        }
       ]
     }
   },
-  "events": []
+  "events": [
+    {
+      "frame": 0,
+      "func": "",
+      "params": []
+    },
+    {
+      "frame": 0,
+      "func": "",
+      "params": []
+    },
+    {
+      "frame": 0.016666666666666666,
+      "func": "",
+      "params": []
+    }
+  ]
 }

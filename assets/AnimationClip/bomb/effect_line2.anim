@@ -1,0 +1,22 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "effect_line2",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "props": {
+      "scaleY": [],
+      "rotation": [
+        {
+          "frame": 0,
+          "value": 90
+        }
+      ]
+    }
+  },
+  "events": []
+}

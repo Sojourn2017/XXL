@@ -2,7 +2,7 @@
   "__type__": "cc.AnimationClip",
   "_name": "effect_line",
   "_objFlags": 0,
-  "_rawFiles": null,
+  "_native": "",
   "_duration": 0.4,
   "sample": 60,
   "speed": 1,
@@ -40,8 +40,45 @@
           "frame": 0.4,
           "value": 60
         }
+      ],
+      "rotation": [
+        {
+          "frame": 0,
+          "value": 0
+        }
       ]
     }
   },
-  "events": []
+  "events": [
+    {
+      "frame": 0,
+      "func": "",
+      "params": []
+    },
+    {
+      "frame": 0,
+      "func": "",
+      "params": []
+    },
+    {
+      "frame": 0,
+      "func": "",
+      "params": []
+    },
+    {
+      "frame": 0,
+      "func": "",
+      "params": []
+    },
+    {
+      "frame": 0,
+      "func": "",
+      "params": []
+    },
+    {
+      "frame": 0,
+      "func": "",
+      "params": []
+    }
+  ]
 }

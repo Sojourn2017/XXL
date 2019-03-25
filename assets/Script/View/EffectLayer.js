@@ -56,6 +56,7 @@ cc.Class({
                     animation.play("effect_line");
                 }
                 else if(cmd.action == "colBomb"){
+                  console.log(JSON.stringify(cmd))
                     instantEffect = cc.instantiate(this.bombWhite);
                     animation  = instantEffect.getComponent(cc.Animation);
                     animation.play("effect_col");
